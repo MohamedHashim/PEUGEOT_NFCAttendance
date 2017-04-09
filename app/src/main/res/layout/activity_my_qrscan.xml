@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/intro_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/image_container"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.8"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:orientation="vertical"
+            android:background="@color/intro2_inner_bg"
+            >
+
+
+            <ImageView
+                android:id="@+id/qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/qr_code"
+                android:layout_centerInParent="true"
+                android:background="@null"
+
+                />
+            <!--android:layout_marginRight="20dp"-->
+
+            <ImageView
+                android:id="@+id/device_hand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/qr_hand_empty"
+                android:background="@null"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="80dp"
+                android:layout_marginBottom="48dp"
+                android:visibility="visible"/>
+            <!--android:layout_marginBottom="48dp"-->
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:background="@drawable/intro_box_02"
+            android:gravity="center"
+            android:visibility="visible">
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/text_container"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.4"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_qr_text"
+            android:id="@+id/description"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_large"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check In"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:background="@color/intro2_bg"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Check Out"-->
+        <!--android:id="@+id/button2"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="@dimen/margin_15dp"-->
+        <!--android:background="@color/red"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textStyle="bold"/>-->
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/progressbar_height_width"
+        android:layout_height="@dimen/progressbar_height_width"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+
+</LinearLayout>

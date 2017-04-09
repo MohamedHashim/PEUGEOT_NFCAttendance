@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/login_horizontal_margin"
+    android:paddingRight="@dimen/login_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/login_bg">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/peugeot_logo"
+        android:transitionName="logo"/>
+
+    <LinearLayout
+        android:id="@+id/login_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gray_border_round_corner_transparent_frame"
+        android:padding="2dp"
+        >
+
+        <EditText
+            android:id="@+id/login_username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_fields_height"
+            android:background="@drawable/white_box"
+            android:drawableLeft="@drawable/usename"
+            android:drawablePadding="@dimen/margin_10dp"
+            android:ellipsize="start"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_vertical|left"
+            android:hint="@string/username_hint"
+            android:padding="@dimen/margin_5dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize_14sp"
+            android:textColorHint="@color/grey"
+            android:singleLine="true"
+            android:inputType="text"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"></View>
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_fields_height"
+            android:background="@drawable/white_box"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/margin_10dp"
+            android:ellipsize="start"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_vertical|left"
+            android:hint="@string/password_hint"
+            android:padding="@dimen/margin_5dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize_14sp"
+            android:textColorHint="@color/grey"
+            android:singleLine="true"
+            android:inputType="textPassword"/>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/login_fields_height"
+        android:text="@string/login"
+        android:background="@drawable/green_round_corner_button"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_below="@id/login_container"
+        android:layout_alignLeft="@id/login_container"
+        android:layout_alignRight="@id/login_container"
+        android:textStyle="bold"
+        android:textSize="@dimen/textsize_16sp"
+        android:id="@+id/login_button"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password"
+android:background="@null"
+        android:id="@+id/forgetBtn"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/textsize_16sp"
+        android:textStyle="bold"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/progressbar_height_width"
+        android:layout_height="@dimen/progressbar_height_width"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

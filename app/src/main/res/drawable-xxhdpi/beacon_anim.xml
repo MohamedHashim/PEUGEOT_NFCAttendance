@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/my_animation" android:oneshot="false">
+    <item android:drawable="@drawable/beacon_signal_empty" android:duration="300" />
+    <item android:drawable="@drawable/beacon_signal_one" android:duration="300" />
+    <item android:drawable="@drawable/beacon_signal_two" android:duration="300" />
+    <item android:drawable="@drawable/beacon_signal_three" android:duration="300" />
+
+</animation-list>
