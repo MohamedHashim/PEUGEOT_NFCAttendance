@@ -2,6 +2,7 @@ package com.NFCFZLLE.eventmanagement;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import com.NFCFZLLE.eventmanagement.utils.CircleImageView;
 import java.io.File;
 
 import static android.R.attr.data;
+import static android.R.attr.typeface;
 
 public class Peugeot_In_Out_Activity extends AppCompatActivity {
 
@@ -30,9 +32,9 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
     static final int CAM_REQUEST1 = 1;
 
     public static final String ATTENDEE_KEY = "attendee";
-
-    TextView name, email, attendee_id, eventTitle, company, phone, registration, expiration, ticket, seat, comments, table_number;
-    String name_txt, mail, nfc_id, event_title, company_txt, phone_number, table, photo;
+    Typeface typeFace, typeFace2,typeFace3,typeFace4,typeFace5,typeFace6,typeFace7;
+    TextView name, email, this_is, table_txt, company, phone, registration,mr, guest, ticket, seat, comments, table_number,attendee_type_txt;
+    String name_txt, mail, nfc_id, event_title, company_txt, phone_number, table, photo,attendee_type;
     ImageView a;
     CircleImageView mProfilePic;
 
@@ -48,6 +50,11 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
 
 //        mProfilePic = (CircleImageView) findViewById(R.id.profile_pic);
         name = (TextView) findViewById(R.id.name);
+        mr= (TextView) findViewById(R.id.mr);
+        attendee_type_txt= (TextView) findViewById(R.id.attendee_type);
+        this_is= (TextView) findViewById(R.id.this_is);
+        guest= (TextView) findViewById(R.id.guest);
+        table_txt= (TextView) findViewById(R.id.table);
 //        email = (TextView) findViewById(R.id.email);
 //        attendee_id = (TextView) findViewById(R.id.attendee_id);
 //        eventTitle = (TextView) findViewById(R.id.event_title);
@@ -57,10 +64,22 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
 //        take_photo = (Button) findViewById(R.id.take_photo);
 //        a= (ImageView) findViewById(R.id.imageView);
 //        expiration = (TextView)findViewById(R.id.expiration_date);
-//        ticket = (TextView)findViewById(R.id.ticket_number);
+//        ticket = (TextView)findViewById(R.id.ticket_tnumber);
 //        seat = (TextView)findViewById(R.id.seat_number);
 //        comments = (TextView)findViewById(R.id.comments_details);
         registration = (TextView) findViewById(R.id.table_number);
+
+        typeFace= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Normal v2_0.ttf");
+        typeFace2= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Light v2_0.ttf");
+        typeFace3= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Bold v2_0.ttf");
+        typeFace4= Typeface.createFromAsset(getAssets(),"fonts/GE Dinar One Light.otf");
+        typeFace5= Typeface.createFromAsset(getAssets(),"fonts/GE Dinar One Medium.otf");
+        typeFace6= Typeface.createFromAsset(getAssets(),"fonts/GE Dinar One Bold.otf");
+        typeFace7= Typeface.createFromAsset(getAssets(),"fonts/GEDinarOne-LightItalic.otf");
+
+
+
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             name_txt = bundle.getString("name");
@@ -71,14 +90,20 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
             phone_number = bundle.getString("phone_number");
             table = bundle.getString("table");
             photo = bundle.getString("photo");
+            attendee_type=bundle.getString("attendee_type");
 
+            attendee_type_txt.setText(attendee_type);
+            attendee_type_txt.setTypeface(typeFace3);
             name.setText(name_txt);
+            name.setTypeface(typeFace);
+            mr.setTypeface(typeFace);
 //            email.setText(mail);
 //            attendee_id.setText(nfc_id);
 //            eventTitle.setText(event_title);
 //            company.setText(company_txt);
 //            phone.setText(phone_number);
             registration.setText(table);
+            registration.setTypeface(typeFace);
 //            Picasso.with(getApplicationContext()).load(photo).into(mProfilePic);
 
         }
@@ -104,6 +129,7 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
 //            Picasso.with(getApplicationContext()).load(photo).into(mProfilePic);
 
         new_scan = (Button) findViewById(R.id.new_scan);
+        new_scan.setTypeface(typeFace2);
         new_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +139,10 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
                 finish();
             }
         });
+
+        this_is.setTypeface(typeFace);
+        guest.setTypeface(typeFace);
+        table_txt.setTypeface(typeFace);
 //        take_photo.setOnClickListener(new View.OnClickListener() {
 //
 //            @Override

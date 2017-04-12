@@ -62,9 +62,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="95dp"
                 android:text="SCANNING"
+                android:id="@+id/scanning"
                 android:textColor="#778aa4"
                 android:textSize="22dp" />
 
@@ -74,6 +75,7 @@
                 android:layout_marginLeft="95dp"
                 android:layout_marginTop="125dp"
                 android:text="NFC"
+                android:id="@+id/nfc"
                 android:textColor="#002355"
                 android:textSize="26dp"
                 android:textStyle="bold" />

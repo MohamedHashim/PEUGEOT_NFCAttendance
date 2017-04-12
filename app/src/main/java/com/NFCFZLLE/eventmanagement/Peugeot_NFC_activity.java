@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.MifareClassic;
@@ -55,9 +56,9 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
     private ImageView deviceHand;
     private NfcAdapter mNfcAdapter;
     private String TAG = "ScanNfc";
-    private TextView description, UID;
+    private TextView description, UID,scanning,nfc;
     String checkin_url = "http://ae.nfcvalet.com/mobile/Test?";
-    String name, mail, nfc_id, event_title, company, phone_number, table, photo, site_id;
+    String name, mail, nfc_id, event_title, company, phone_number, table, photo, site_id,attendee_type;
 
     ProgressBar mProgress;
     private final String[][] techList = new String[][]{
@@ -78,7 +79,7 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
 
-
+    Typeface typeFace,typeFace2,typeFace3;
     @Override
     protected void onResume() {
         super.onResume();
@@ -109,6 +110,13 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
         setContentView(R.layout.activity_peugeot_nfc_activity);
 //        description = (TextView) findViewById(R.id.description);
         UID = (TextView) findViewById(R.id.UID);
+        scanning= (TextView) findViewById(R.id.scanning);
+        nfc= (TextView) findViewById(R.id.nfc);
+        typeFace= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Normal v2_0.ttf");
+        typeFace2= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Light v2_0.ttf");
+        typeFace3= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Bold v2_0.ttf");
+        scanning.setTypeface(typeFace2);
+        nfc.setTypeface(typeFace3);
 //        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 //        Helper.checkIfNfcAvaialable(mNfcAdapter,this,false);
 
@@ -336,6 +344,7 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
                         phone_number = object.getString("phone_number");
                         table = object.getString("t_number");
                         photo = object.getString("photo");
+                        attendee_type=object.getString("attendee_type");
 
                         Intent intent = new Intent(Peugeot_NFC_activity.this, Peugeot_In_Out_Activity.class);
                         intent.putExtra("name", name);
@@ -346,6 +355,7 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
                         intent.putExtra("phone_number", phone_number);
                         intent.putExtra("table", table);
                         intent.putExtra("photo", photo);
+                        intent.putExtra("attendee_type",attendee_type);
 
                         startActivity(intent);
                         finish();
