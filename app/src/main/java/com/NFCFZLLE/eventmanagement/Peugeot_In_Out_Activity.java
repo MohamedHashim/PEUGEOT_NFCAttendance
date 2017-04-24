@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,7 +45,13 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_peugeot_in_out);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        if (width >= 480)
+            setContentView(R.layout.activity_peugeot_in_out);   // for new and ordinary mobiles above 480p in width
+        else
+            setContentView(R.layout.activity_peugeot_small_in_out);//for small mobiles
 
 //        mainLayout = (LinearLayout) findViewById(R.id.main_layout);
 

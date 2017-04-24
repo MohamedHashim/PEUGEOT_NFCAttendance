@@ -18,6 +18,7 @@ import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -107,7 +108,16 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
     public void onCreate(Bundle savedInstanceState) {
 //        themeColor = R.color.intro1_bg;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_peugeot_nfc_activity);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        if (width >= 480)
+            setContentView(R.layout.activity_peugeot_nfc_activity); // for new and ordinary mobiles above 480p in width
+        else
+            setContentView(R.layout.activity_peugeot_nfc_small_activity);//for small mobiles
+
+
+
 //        description = (TextView) findViewById(R.id.description);
         UID = (TextView) findViewById(R.id.UID);
         scanning= (TextView) findViewById(R.id.scanning);

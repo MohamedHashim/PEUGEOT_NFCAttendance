@@ -3,6 +3,7 @@ package com.NFCFZLLE.eventmanagement;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
@@ -33,7 +34,13 @@ public class Peugeot_profile_activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_peugeot_profile_activity);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        if (width >= 480)
+            setContentView(R.layout.activity_peugeot_profile_activity); // for new and ordinary mobiles above 480p in width
+        else
+            setContentView(R.layout.activity_peugeot_profile_small_activity);//for small mobiles
 
         mUser = Helper.getUser(this);
 
