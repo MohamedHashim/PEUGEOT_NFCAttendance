@@ -51,15 +51,19 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.attr.value;
+
 
 public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCallback<Attendees> {
     private ImageView cardHand;
     private ImageView deviceHand;
     private NfcAdapter mNfcAdapter;
     private String TAG = "ScanNfc";
-    private TextView description, UID,scanning,nfc;
+    private TextView description, UID, scanning, nfc;
     String checkin_url = "http://ae.nfcvalet.com/mobile/Test?";
-    String name, mail, nfc_id, event_title, company, phone_number, table, photo, site_id,attendee_type;
+    String name, mail, nfc_id, event_title, company, phone_number, table, photo, site_id, attendee_type;
+
+    public Attendees attendees;
 
     ProgressBar mProgress;
     private final String[][] techList = new String[][]{
@@ -80,7 +84,8 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
 
-    Typeface typeFace,typeFace2,typeFace3;
+    Typeface typeFace, typeFace2, typeFace3;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -117,14 +122,13 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
             setContentView(R.layout.activity_peugeot_nfc_small_activity);//for small mobiles
 
 
-
 //        description = (TextView) findViewById(R.id.description);
         UID = (TextView) findViewById(R.id.UID);
-        scanning= (TextView) findViewById(R.id.scanning);
-        nfc= (TextView) findViewById(R.id.nfc);
-        typeFace= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Normal v2_0.ttf");
-        typeFace2= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Light v2_0.ttf");
-        typeFace3= Typeface.createFromAsset(getAssets(),"fonts/Peugeot Bold v2_0.ttf");
+        scanning = (TextView) findViewById(R.id.scanning);
+        nfc = (TextView) findViewById(R.id.nfc);
+        typeFace = Typeface.createFromAsset(getAssets(), "fonts/Peugeot Normal v2_0.ttf");
+        typeFace2 = Typeface.createFromAsset(getAssets(), "fonts/Peugeot Light v2_0.ttf");
+        typeFace3 = Typeface.createFromAsset(getAssets(), "fonts/Peugeot Bold v2_0.ttf");
         scanning.setTypeface(typeFace2);
         nfc.setTypeface(typeFace3);
 //        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -134,19 +138,19 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
 //        initAnimation();
 
 //        if(!NfcAdapter.getDefaultAdapter(this).isEnabled()) {
-            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            if (mNfcAdapter == null) {
-                // Stop here, we definitely need NFC
-                Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null) {
+            // Stop here, we definitely need NFC
+            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 //            if (!mNfcAdapter.isEnabled()) {
 //                UID.setText("NFC is disabled");
 //            } else {
 //                UID.setText("NFC Scanner");
 //            }
-        }
+    }
 //    }
 
     private void initCheckIn(String attendeeId) {
@@ -321,6 +325,9 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
     @Override
     public void onReceiveValue(Attendees value, String message, RequestKeys requestKey) {
 
+        Log.d("values", value + "\n" + message + "\n" + requestKey);
+        attendees=value;
+
     }
 
     @Override
@@ -333,63 +340,85 @@ public class Peugeot_NFC_activity extends AppCompatActivity implements ValueCall
             startActivity(intent);
             finish();
         } else {
-            Log.d("", "error: " + error);
+            Log.d("response error", "error: " + error);
+            if (error.equals("Not Registered.")) {
+                Intent intent = new Intent(Peugeot_NFC_activity.this, RegisterActivity.class);
+                intent.putExtra(RegisterActivity.IS_NFC, true);
+                intent.putExtra(RegisterActivity.SCAN_ID, UID.getText().toString());
+                startActivity(intent);
+                finish();
+            }else{
+                if(requestKey == RequestKeys.CHECK_IN_REQUEST_BY_NFC_ID) {
+                    Intent intent = new Intent(Peugeot_NFC_activity.this, Peugeot_In_Out_Activity.class);
+                    intent.putExtra(CheckInCheckOutActivity.isCheckinFlag, true);
+                    intent.putExtra(CheckInCheckOutActivity.ATTENDEE_KEY, attendees);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(Peugeot_NFC_activity.this, Peugeot_In_Out_Activity.class);
+                    intent.putExtra(CheckInCheckOutActivity.isCheckinFlag, false);
+                    intent.putExtra(CheckInCheckOutActivity.ATTENDEE_KEY, attendees);
+                    startActivity(intent);
+                    finish();
+
+            }
+            }
 //            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-            RequestQueue MyRequestQueue2 = Volley.newRequestQueue(getApplicationContext());
-            StringRequest MyStringRequest = new StringRequest(Request.Method.POST, checkin_url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("Attendee Response", response);
-
-                    JSONObject jsono = null;
-                    JSONObject object = null;
-                    try {
-                        jsono = new JSONObject(response);
-                        object = jsono.getJSONObject("attendee");
-                        name = object.getString("first_name") + " " + object.getString("last_name");
-                        mail = object.getString("email");
-                        nfc_id = object.getString("nfc_attendee_id");
-                        event_title = object.getString("event_name");
-                        company = object.getString("c_name");
-                        phone_number = object.getString("phone_number");
-                        table = object.getString("t_number");
-                        photo = object.getString("photo");
-                        attendee_type=object.getString("attendee_type");
-
-                        Intent intent = new Intent(Peugeot_NFC_activity.this, Peugeot_In_Out_Activity.class);
-                        intent.putExtra("name", name);
-                        intent.putExtra("mail", mail);
-                        intent.putExtra("nfc_id", nfc_id);
-                        intent.putExtra("event_title", event_title);
-                        intent.putExtra("company", company);
-                        intent.putExtra("phone_number", phone_number);
-                        intent.putExtra("table", table);
-                        intent.putExtra("photo", photo);
-                        intent.putExtra("attendee_type",attendee_type);
-
-                        startActivity(intent);
-                        finish();
-
-                        Log.d("Response", response + "\n" + object + "\n" + name + "\n" + nfc_id + "\n" + event_title + "\n" + company + "\n" + phone_number + "\n" + table + "\n" + photo);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Error", error.toString());
-                    Toast.makeText(getApplicationContext(), "Server is not responding", Toast.LENGTH_LONG).show();
-                }
-            }) {
-                protected Map<String, String> getParams() {
-                    Map<String, String> MyData = new HashMap<String, String>();
-                    MyData.put("nfc_attendee_id", UID.getText().toString());
-
-                    return MyData;
-                }
-            };
-            MyRequestQueue2.add(MyStringRequest);
+//            RequestQueue MyRequestQueue2 = Volley.newRequestQueue(getApplicationContext());
+//            StringRequest MyStringRequest = new StringRequest(Request.Method.POST, checkin_url, new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    Log.d("Attendee Response", response);
+//
+//                    JSONObject jsono = null;
+//                    JSONObject object = null;
+//                    try {
+//                        jsono = new JSONObject(response);
+//                        object = jsono.getJSONObject("attendee");
+//                        name = object.getString("first_name") + " " + object.getString("last_name");
+//                        mail = object.getString("email");
+//                        nfc_id = object.getString("nfc_attendee_id");
+//                        event_title = object.getString("event_name");
+//                        company = object.getString("c_name");
+//                        phone_number = object.getString("phone_number");
+//                        table = object.getString("t_number");
+//                        photo = object.getString("photo");
+//                        attendee_type=object.getString("attendee_type");
+//
+//                        Intent intent = new Intent(Peugeot_NFC_activity.this, Peugeot_In_Out_Activity.class);
+//                        intent.putExtra("name", name);
+//                        intent.putExtra("mail", mail);
+//                        intent.putExtra("nfc_id", nfc_id);
+//                        intent.putExtra("event_title", event_title);
+//                        intent.putExtra("company", company);
+//                        intent.putExtra("phone_number", phone_number);
+//                        intent.putExtra("table", table);
+//                        intent.putExtra("photo", photo);
+//                        intent.putExtra("attendee_type",attendee_type);
+//
+//                        startActivity(intent);
+//                        finish();
+//
+//                        Log.d("Response", response + "\n" + object + "\n" + name + "\n" + nfc_id + "\n" + event_title + "\n" + company + "\n" + phone_number + "\n" + table + "\n" + photo);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.d("Error", error.toString());
+//                    Toast.makeText(getApplicationContext(), "Server is not responding", Toast.LENGTH_LONG).show();
+//                }
+//            }) {
+//                protected Map<String, String> getParams() {
+//                    Map<String, String> MyData = new HashMap<String, String>();
+//                    MyData.put("nfc_attendee_id", UID.getText().toString());
+//
+//                    return MyData;
+//                }
+//            };
+//            MyRequestQueue2.add(MyStringRequest);
         }
     }
 }
