@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
 
     ProgressBar mProgress;
     Button new_scan, take_photo;
+    private static int SPLASH_TIME_OUT = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +159,15 @@ public class Peugeot_In_Out_Activity extends AppCompatActivity {
         this_is.setTypeface(typeFace);
         guest.setTypeface(typeFace);
         table_txt.setTypeface(typeFace);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(Peugeot_In_Out_Activity.this, Peugeot_NFC_activity.class);
+                startActivity(i);
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
 //        take_photo.setOnClickListener(new View.OnClickListener() {
 //
 //            @Override
